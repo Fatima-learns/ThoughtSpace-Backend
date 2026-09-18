@@ -37,7 +37,9 @@ router.post("/register", async(req,res) => {
     await user.save()
 
     res.cookie("refreshToken", refreshToken, {
-        httpOnly: true,          // notes
+        httpOnly: true,
+        sameSite: "none",
+        secure: true
     })
 
     res.status(201).json({
@@ -112,8 +114,11 @@ router.post("/refresh" , async (req,res) => {
 
         const {accessToken, refreshToken: newRefreshToken} = generateTokens({userId: user._id})
 
-        res.cookie("refreshToken", newRefreshToken , { httpOnly: true})
-
+        res.cookie("refreshToken", refreshToken, {
+            httpOnly: true,
+            sameSite: "none",
+            secure: true
+        })
         user.refreshToken = newRefreshToken
         await user.save()
 
@@ -164,9 +169,11 @@ router.post("/login", async (req, res) => {
     user.refreshToken = refreshToken
     await user.save()
 
-    res.cookie("refreshToken", refreshToken, {
-        httpOnly: true
-    })
+        res.cookie("refreshToken", refreshToken, {
+            httpOnly: true,
+            sameSite: "none",
+            secure: true
+        })
 
     res.status(200).json({
         message: "Login successful",
