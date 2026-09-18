@@ -6,7 +6,7 @@ import cors from "cors"
 const app = express();
 
 app.use(cors({
-    origin: "https://thought-space-9l5e2wx9r-fatima-learns-projects.vercel.app",
+    origin: "https://thought-space-theta.vercel.app",
     credentials: true
 }))
 
